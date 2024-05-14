@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyListener;
 
 
 public class Window extends JFrame implements Runnable {
@@ -55,10 +54,13 @@ public class Window extends JFrame implements Runnable {
         // Creating corresponding scene based on the state
         switch (currentState) {
             case 0:
-                currentScene = new MenuScene(keyListener, mouseListener);
+                currentScene = new SceneMenu(keyListener, mouseListener);
                 break;
             case 1:
-                currentScene = new GameScene(keyListener);
+                currentScene = new SceneGameAI(keyListener);
+                break;
+            case 2:
+                currentScene = new SceneGameCoop(keyListener);
                 break;
             default:
                 System.out.println("Unknown scene");

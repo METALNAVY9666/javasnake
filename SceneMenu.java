@@ -1,24 +1,19 @@
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
 
-public class MenuScene extends Scene {
+public class SceneMenu extends Scene {
     // BufferedImages for menu items
     public BufferedImage title, onePlayer, twoPlayers, exit;
     // Rectangles to define the position and size of menu items
     public Rect titleRect, onePlayerRect, twoPlayersRect, exitRect;
-    // KeyListener and MouseListener objects
-    public KL keyListener;
-    public ML mouseListener;
 
-    // Constructor to initialize MenuScene with a key listener
-    public MenuScene(KL keyListener, ML mouseListener) {
+    // Constructor to initialize SceneMenu with a key listener
+    public SceneMenu(KL keyListener, ML mouseListener) {
         // Initializing keyListener and mouseListener
-        this.keyListener = keyListener;
-        this.mouseListener = mouseListener;
+        super(keyListener, mouseListener);
 
         try {
             // Loading images for menu items from file
@@ -39,23 +34,23 @@ public class MenuScene extends Scene {
     @Override
     public void update(double deltaTime) {
         // Check if mouse is over the "One player" button and if it's pressed, change the game state
-        if (mouseListener.getX() >= onePlayerRect.x && mouseListener.getX() <= onePlayerRect.x + onePlayerRect.width &&
-            mouseListener.getY() >= onePlayerRect.y && mouseListener.getY() <= onePlayerRect.y + onePlayerRect.height) {
-            if (mouseListener.isPressed()) {
+        if (super.mouseListener.getX() >= onePlayerRect.x && super.mouseListener.getX() <= onePlayerRect.x + onePlayerRect.width &&
+            super.mouseListener.getY() >= onePlayerRect.y && super.mouseListener.getY() <= onePlayerRect.y + onePlayerRect.height) {
+            if (super.mouseListener.isPressed()) {
                 Window.getWindow().changeState(1);
             }
         }
         // Check if mouse is over the "Two players" button and if it's pressed, change the game state
-        if (mouseListener.getX() >= twoPlayersRect.x && mouseListener.getX() <= twoPlayersRect.x + twoPlayersRect.width &&
-                mouseListener.getY() >= twoPlayersRect.y && mouseListener.getY() <= twoPlayersRect.y + twoPlayersRect.height) {
-            if (mouseListener.isPressed()) {
-                Window.getWindow().changeState(1);
+        if (super.mouseListener.getX() >= twoPlayersRect.x && super.mouseListener.getX() <= twoPlayersRect.x + twoPlayersRect.width &&
+            super.mouseListener.getY() >= twoPlayersRect.y && super.mouseListener.getY() <= twoPlayersRect.y + twoPlayersRect.height) {
+            if (super.mouseListener.isPressed()) {
+                Window.getWindow().changeState(2);
             }
         }
         // Check if mouse is over the "Exit" button and if it's pressed, close the game
-        if (mouseListener.getX() >= exitRect.x && mouseListener.getX() <= exitRect.x + exitRect.width &&
-                mouseListener.getY() >= exitRect.y && mouseListener.getY() <= exitRect.y + exitRect.height) {
-            if (mouseListener.isPressed()) {
+        if (super.mouseListener.getX() >= exitRect.x && super.mouseListener.getX() <= exitRect.x + exitRect.width &&
+            super.mouseListener.getY() >= exitRect.y && super.mouseListener.getY() <= exitRect.y + exitRect.height) {
+            if (super.mouseListener.isPressed()) {
                 Window.getWindow().close();
             }
         }
