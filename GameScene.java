@@ -6,6 +6,7 @@ public class GameScene extends Scene {
     // Variables to represent the background and foreground rectangles
     public Rect background, foreground;
     public Snake snake;
+    public Food food;
 
     public KL keyListener;
 
@@ -13,11 +14,14 @@ public class GameScene extends Scene {
         // Initialize the background rectangle to cover the entire screen
         background = new Rect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         // Initialize the foreground rectangle with specific dimensions
-        foreground = new Rect(24, 48, 24 * 40, 24 * 30);
+        foreground = new Rect(24, 48, Constants.TILE_WIDTH * 40, Constants.TILE_WIDTH * 30);
         // Initialize the snake with starting parameters
-        snake = new Snake(5, 48, 48 + 40, 24,24);
+        snake = new Snake(5, 48, 48 + 40, 24, 24);
         // Initialize Key Listener
         this.keyListener = keyListener;
+
+        food = new Food(foreground, snake, 12, 12, Color.RED);
+        food.spawn();
     }
 
     // Method to update the game state
@@ -33,14 +37,22 @@ public class GameScene extends Scene {
         } else if (keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
             snake.changeDirection(Direction.LEFT);
         }
+
+        if (!food.spawned)
+            food.spawn();
+
+        // update the food position and state
+        food.update(deltaTime);
+
         // Update the snake's position and state
         snake.update(deltaTime);
+
     }
 
     // Implementation of the draw method from the Scene class
     @Override
     public void draw(Graphics g) {
-        Graphics2D g2D = (Graphics2D)g;
+        Graphics2D g2D = (Graphics2D) g;
         // Set the color to black
         g2D.setColor(Color.BLACK);
         // Fill a rectangle to represent the background of the game scene
@@ -53,5 +65,8 @@ public class GameScene extends Scene {
 
         // Drawing the snake
         snake.draw(g2D);
+
+        // Drawing the food
+        food.draw(g2D);
     }
 }

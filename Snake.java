@@ -46,6 +46,33 @@ public class Snake {
         }
     }
 
+    // checks if the snake is intersecting with itself
+    public boolean intersectingWithSelf() {
+        return intersectingWithRect(body[head]);
+    }
+
+    // checks if the snake is intersecting with a rect
+    public boolean intersectingWithRect(Rect rect) {
+        for (int i = tail; i != head; i = (i + 1) % body.length) {
+            if (intersecting(rect, body[i]))
+                return true;
+        }
+        return false;
+    }
+
+    // Grows the snake
+    public void grow() {
+        System.out.println("growing !");
+    }
+
+    // checks if the two rects are overlapping
+    public boolean intersecting(Rect r1, Rect r2) {
+        System.out.println("-");
+        System.out.println(r1);
+        System.out.println(r2);
+        return (r1.x >= r2.x && r1.x + r1.width <= r2.x + r2.width && r1.y >= r2.y
+                && r1.y + r1.height <= r2.y + r2.height);
+    }
 
     // Method to update the position and state of the snake
     public void update(double deltaTime) {
@@ -93,7 +120,6 @@ public class Snake {
             double subWidth = (piece.width - 6.0) / 2.0;
             double subHeight = (piece.height - 6.0) / 2.0;
 
-
             // Setting color for a snake
             g2D.setColor(Color.RED);
 
@@ -101,7 +127,7 @@ public class Snake {
             g2D.fill(new Rectangle2D.Double(piece.x + 2.0, piece.y + 2.0, subWidth, subHeight));
             g2D.fill(new Rectangle2D.Double(piece.x + 4.0 + subWidth, piece.y + 2.0, subWidth, subHeight));
             g2D.fill(new Rectangle2D.Double(piece.x + 2.0, piece.y + 4.0 + subHeight, subWidth, subHeight));
-            g2D.fill(new Rectangle2D.Double(piece.x + 4.0 + subWidth, piece.y + 4.0 + subHeight , subWidth, subHeight));
+            g2D.fill(new Rectangle2D.Double(piece.x + 4.0 + subWidth, piece.y + 4.0 + subHeight, subWidth, subHeight));
         }
     }
 }
