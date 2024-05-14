@@ -42,21 +42,21 @@ public class MenuScene extends Scene {
         if (mouseListener.getX() >= onePlayerRect.x && mouseListener.getX() <= onePlayerRect.x + onePlayerRect.width &&
             mouseListener.getY() >= onePlayerRect.y && mouseListener.getY() <= onePlayerRect.y + onePlayerRect.height) {
             if (mouseListener.isPressed()) {
-                Window.changeState(1);
+                Window.getWindow().changeState(1);
             }
         }
         // Check if mouse is over the "Two players" button and if it's pressed, change the game state
         if (mouseListener.getX() >= twoPlayersRect.x && mouseListener.getX() <= twoPlayersRect.x + twoPlayersRect.width &&
                 mouseListener.getY() >= twoPlayersRect.y && mouseListener.getY() <= twoPlayersRect.y + twoPlayersRect.height) {
             if (mouseListener.isPressed()) {
-                Window.changeState(1);
+                Window.getWindow().changeState(1);
             }
         }
         // Check if mouse is over the "Exit" button and if it's pressed, close the game
         if (mouseListener.getX() >= exitRect.x && mouseListener.getX() <= exitRect.x + exitRect.width &&
                 mouseListener.getY() >= exitRect.y && mouseListener.getY() <= exitRect.y + exitRect.height) {
             if (mouseListener.isPressed()) {
-                Window.close();
+                Window.getWindow().close();
             }
         }
     }

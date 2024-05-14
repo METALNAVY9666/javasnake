@@ -4,14 +4,15 @@ import java.awt.event.KeyListener;
 
 
 public class Window extends JFrame implements Runnable {
+    public static Window window = null;
     // Variable to track window state
     public boolean isRunning;
     // Static variables for current state and scene
-    public static int currentState;
-    public static Scene currentScene;
+    public int currentState;
+    public Scene currentScene;
     // Key listener and mouse listener
-    public static KL keyListener = new KL();
-    public static ML mouseListener = new ML();
+    public KL keyListener = new KL();
+    public ML mouseListener = new ML();
 
     // Constructor for creating window
     public Window (int width, int height, String title) {
@@ -31,29 +32,37 @@ public class Window extends JFrame implements Runnable {
 
         // Setting initial state and scene
         isRunning = true;
-        Window.changeState(0);
+        changeState(0);
+    }
+
+    // Method to get the window instance
+    public static Window getWindow() {
+        if (Window.window == null) {
+            Window.window = new Window(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Constants.SCREEN_TITLE);
+        }
+        return Window.window;
     }
 
     // Method to close the game
-    public static void close() {
-
+    public void close() {
+        isRunning = false;
     }
 
     // Method to change the current state and scene
-    public static void changeState(int newState) {
-        Window.currentState = newState;
+    public void changeState(int newState) {
+        currentState = newState;
 
         // Creating corresponding scene based on the state
-        switch (Window.currentState) {
+        switch (currentState) {
             case 0:
-                Window.currentScene = new MenuScene(Window.keyListener, Window.mouseListener);
+                currentScene = new MenuScene(keyListener, mouseListener);
                 break;
             case 1:
-                Window.currentScene = new GameScene();
+                currentScene = new GameScene();
                 break;
             default:
                 System.out.println("Unknown scene");
-                Window.currentScene = null;
+                currentScene = null;
                 break;
         }
     }
@@ -75,7 +84,6 @@ public class Window extends JFrame implements Runnable {
     // Method for drawing window content
     public void draw (Graphics g) {
         Graphics2D g2D = (Graphics2D)g;
-
         // Drawing current scene
         currentScene.draw(g);
     }
@@ -101,5 +109,6 @@ public class Window extends JFrame implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.exit(0);
     }
 }
