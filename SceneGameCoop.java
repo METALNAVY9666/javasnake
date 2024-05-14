@@ -6,22 +6,32 @@ public class SceneGameCoop extends Scene {
     private boolean collisionDetected = false;
     public SnakeRed snakeRed;
     public SnakeBlue snakeBlue;
+    public Food foodRed;
+    public Food foodBlue;
 
     public SceneGameCoop(KL keyListener) {
         super(keyListener);
         // Initialize the snake with starting parameters
-        snakeRed = new SnakeRed(10, 48, 48 + 40, 24,24);
-        snakeBlue = new SnakeBlue(10, 48, 548 + 40, 24 , 24);
-        // Initialize Key Listener
+        snakeRed = new SnakeRed(2, 48, 48 + 24, 24,24, super.foreground);
+        snakeBlue = new SnakeBlue(2, 48, 216 + 24, 24 , 24, super.foreground);
+
+        foodRed = new Food(foreground, snakeRed, 12, 12, Color.RED);
+        foodBlue = new Food(foreground, snakeBlue, 12, 12, Color.BLUE);
+        foodRed.spawn();
+        foodBlue.spawn();
     }
 
     public boolean checkCollision() {
-        // We get the coordinates of the snakes' heads
-        Rect headRed = snakeRed.body[snakeRed.head];
-        Rect headBlue = snakeBlue.body[snakeBlue.head];
-
-        // Check the intersection of the coordinates of the heads
-        return Snake.intersecting(headRed, headBlue);
+        // Перебираем все сегменты каждой змейки
+        for (Rect segmentRed : snakeRed.body) {
+            for (Rect segmentBlue : snakeBlue.body) {
+                // Проверяем столкновение каждого сегмента одной змейки с каждым сегментом другой змейки
+                if (Snake.intersecting(segmentRed, segmentBlue)) {
+                    return true; // Если есть столкновение, возвращаем true
+                }
+            }
+        }
+        return false; // Если столкновений не найдено, возвращаем false
     }
 
     // Method to update the game state
@@ -56,9 +66,17 @@ public class SceneGameCoop extends Scene {
             snakeBlue.changeDirection(Direction.LEFT);
         }
 
+        if (!foodRed.spawned)
+            foodRed.spawn();
+        if (!foodBlue.spawned)
+            foodBlue.spawn();
+
+        // update the food position and state
+        foodRed.update(deltaTime);
+        foodBlue.update(deltaTime);
+
         snakeRed.update(deltaTime);
         snakeBlue.update(deltaTime);
-
     }
 
     // Implementation of the draw method from the Scene class
@@ -78,5 +96,8 @@ public class SceneGameCoop extends Scene {
         // Drawing the snake
         snakeRed.draw(g2D);
         snakeBlue.draw(g2D);
+
+        foodRed.draw(g2D);
+        foodBlue.draw(g2D);
     }
 }

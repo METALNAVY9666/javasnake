@@ -10,7 +10,7 @@ public abstract class Scene {
         // Initialize the background rectangle to cover the entire screen
         background = new Rect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         // Initialize the foreground rectangle with specific dimensions
-        foreground = new Rect(24, 48, 24 * 40, 24 * 30);
+        foreground = new Rect(24, 48, Constants.TILE_WIDTH * 31, Constants.TILE_WIDTH * 22);
         // Initialize Key Listener
         this.keyListener = keyListener;
     }

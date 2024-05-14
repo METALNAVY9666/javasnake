@@ -4,12 +4,14 @@ import java.awt.geom.Rectangle2D;
 
 public class SceneGameAI extends Scene {
     public SnakeRed snakeRed;
+    public Food food;
 
     public SceneGameAI(KL keyListener) {
         super(keyListener);
         // Initialize the snake with starting parameters
-        snakeRed = new SnakeRed(10, 48, 48 + 40, 24,24);
-        // Initialize Key Listener
+        snakeRed = new SnakeRed(2, 48, 48 + 24, 24,24, super.foreground);
+        food = new Food(foreground, snakeRed, 12, 12, Color.BLACK);
+        food.spawn();
     }
 
     // Method to update the game state
@@ -26,6 +28,12 @@ public class SceneGameAI extends Scene {
             snakeRed.changeDirection(Direction.LEFT);
         }
 
+        if (!food.spawned)
+            food.spawn();
+
+        // update the food position and state
+        food.update(deltaTime);
+
         // Update the snake's position and state
         snakeRed.update(deltaTime);
     }
@@ -33,7 +41,7 @@ public class SceneGameAI extends Scene {
     // Implementation of the draw method from the Scene class
     @Override
     public void draw(Graphics g) {
-        Graphics2D g2D = (Graphics2D)g;
+        Graphics2D g2D = (Graphics2D) g;
         // Set the color to black
         g2D.setColor(Color.BLACK);
         // Fill a rectangle to represent the background of the game scene
@@ -46,5 +54,6 @@ public class SceneGameAI extends Scene {
 
         // Drawing the snake
         snakeRed.draw(g2D);
+        food.draw(g2D);
     }
 }

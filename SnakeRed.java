@@ -2,8 +2,8 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class SnakeRed extends Snake {
-    public SnakeRed(int size, double startX, double startY, double bodyWidth, double bodyHeight) {
-        super(size, startX, startY, bodyWidth, bodyHeight);
+    public SnakeRed(int size, double startX, double startY, double bodyWidth, double bodyHeight, Rect background) {
+        super(size, startX, startY, bodyWidth, bodyHeight, background);
     }
 
     @Override

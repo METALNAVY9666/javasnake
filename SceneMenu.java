@@ -26,10 +26,10 @@ public class SceneMenu extends Scene {
         }
 
         // Defining rectangles for menu items
-        titleRect = new Rect(355, 70, 300, 100);
-        onePlayerRect = new Rect(470, 250, 70, 120);
-        twoPlayersRect = new Rect(445, 400, 130, 120);
-        exitRect = new Rect(460, 600, 130, 120);
+        titleRect = new Rect(250, 70, 300, 100);
+        onePlayerRect = new Rect(360, 200, 60, 100);
+        twoPlayersRect = new Rect(330, 320, 120, 100);
+        exitRect = new Rect(350, 450, 100, 100);
     }
     @Override
     public void update(double deltaTime) {
