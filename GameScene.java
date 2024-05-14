@@ -4,15 +4,19 @@ import java.awt.geom.Rectangle2D;
 public class GameScene extends Scene {
     // Variables to represent the background and foreground rectangles
     public Rect background, foreground;
+    public Snake snake;
 
     public GameScene() {
         // Initialize the background rectangle to cover the entire screen
         background = new Rect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         // Initialize the foreground rectangle with specific dimensions
         foreground = new Rect(24, 48, 24 * 40, 24 * 30);
+        snake = new Snake(5, 48, 48 + 40, 24,24);
     }
     @Override
-    public void update(double deltaTime) {}
+    public void update(double deltaTime) {
+
+    }
 
     // Implementation of the draw method from the Scene class
     @Override
@@ -27,5 +31,8 @@ public class GameScene extends Scene {
         g2D.setColor(Color.GREEN);
         // Fill a rectangle to represent the foreground of the game scene
         g2D.fill(new Rectangle2D.Double(foreground.x, foreground.y, foreground.width, foreground.height));
+
+        // Drawing the snake
+        snake.draw(g2D);
     }
 }
