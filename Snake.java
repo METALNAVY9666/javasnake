@@ -10,6 +10,8 @@ public abstract class Snake {
     // Index of the tail and head of the snake
     public int tail = 0;
     public int head;
+    // auto-grow counter
+    public int autoGrow = 0;
 
     // Direction of the snake
     public Direction direction = Direction.RIGHT;
@@ -33,6 +35,7 @@ public abstract class Snake {
         }
         head--; // Adjusting head to point to the correct index
     }
+
     // Method to change the direction of the snake
     public void changeDirection(Direction d) {
         if (d == Direction.RIGHT && direction != Direction.LEFT) {
@@ -46,13 +49,18 @@ public abstract class Snake {
         }
     }
 
-
     // Method to update the position and state of the snake
     public void update(double deltaTime) {
         // Check if the snake should move based on the time elapsed
         if (waitTimeLeft > 0) {
             waitTimeLeft -= deltaTime;
             return;
+        }
+
+        autoGrow++;
+        if (this.autoGrow == Constants.AUTO_GROW_RENEW) {
+            this.autoGrow = 0;
+            this.grow();
         }
 
         if (intersectingWithSelf()) {
@@ -109,6 +117,11 @@ public abstract class Snake {
 
         tail = (tail - 1) % body.length;
         body[tail] = newBodyPiece;
+    }
+
+    public void shrink() {
+        this.body[this.tail] = null;
+        this.tail++;
     }
 
     // Method to check if the snake intersects with itself

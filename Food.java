@@ -37,7 +37,7 @@ public class Food {
     // explicit
     public void update(double dt) {
         if (this.snake.intersectingWithRect(this.rect)) {
-            this.snake.grow();
+            this.snake.shrink();
             // move the food away from the screen
             this.rect.x = -100;
             this.rect.y = -100;
