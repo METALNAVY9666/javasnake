@@ -15,7 +15,7 @@ public class GameScene extends Scene {
         // Initialize the foreground rectangle with specific dimensions
         foreground = new Rect(24, 48, 24 * 40, 24 * 30);
         // Initialize the snake with starting parameters
-        snake = new Snake(5, 48, 48 + 40, 24,24);
+        snake = new Snake(10, 48, 48 + 40, 24,24);
         // Initialize Key Listener
         this.keyListener = keyListener;
     }

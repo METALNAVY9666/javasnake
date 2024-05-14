@@ -16,7 +16,7 @@ public class Snake {
     public Direction direction = Direction.RIGHT;
 
     // Time variables for controlling the snake movement speed
-    public double ogWaitBetweenUpdates = 0.2f;
+    public double ogWaitBetweenUpdates = 0.3f;
     public double waitTimeLeft = ogWaitBetweenUpdates;
 
     public Snake(int size, double startX, double startY, double bodyWidth, double bodyHeight) {
@@ -54,6 +54,11 @@ public class Snake {
             waitTimeLeft -= deltaTime;
             return;
         }
+
+        if (intersectingWithSelf()) {
+            Window.getWindow().changeState(0);
+        }
+
         // Reset the timer and calculate the new position for the head of the snake
         waitTimeLeft = ogWaitBetweenUpdates;
         double newX = 0;
@@ -81,6 +86,23 @@ public class Snake {
 
         body[head].x = newX;
         body[head].y = newY;
+    }
+
+    // Method to check if the snake intersects with itself
+    public boolean intersectingWithSelf() {
+        Rect head = body[this.head];
+        // Iterate through all body segments except the head itself
+        for (int i = tail; i != this.head - 1; i = (i + 1) % body.length) {
+            // Check if the head intersects with any body segment
+            if (intersecting(head, body[i])) { return true; }
+        }
+        return false;
+    }
+
+    // Method to check if two rectangles intersect
+    public boolean intersecting(Rect r1, Rect r2) {
+        return (r1.x >= r2.x && r1.x + r1.width <= r2.x + r2.width &&
+                r1.y >= r2.y && r1.y + r1.height <= r2.y + r2.height);
     }
 
     // Method to draw the snake
