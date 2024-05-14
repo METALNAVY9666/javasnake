@@ -9,8 +9,10 @@ public class Window extends JFrame implements Runnable {
     // Static variables for current state and scene
     public static int currentState;
     public static Scene currentScene;
-    // Static key listener
+    // Key listener and mouse listener
     public static KL keyListener = new KL();
+    public static ML mouseListener = new ML();
+
     // Constructor for creating window
     public Window (int width, int height, String title) {
         // Setting window size, title, resizable option, and visibility
@@ -21,11 +23,20 @@ public class Window extends JFrame implements Runnable {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Adding key listener to the window
-        addKeyListener(Window.keyListener);
+        addKeyListener(keyListener);
+
+        // Adding mouse listener to the window
+        addMouseListener(mouseListener);
+        addMouseMotionListener(mouseListener);
 
         // Setting initial state and scene
         isRunning = true;
         Window.changeState(0);
+    }
+
+    // Method to close the game
+    public static void close() {
+
     }
 
     // Method to change the current state and scene
@@ -35,7 +46,7 @@ public class Window extends JFrame implements Runnable {
         // Creating corresponding scene based on the state
         switch (Window.currentState) {
             case 0:
-                Window.currentScene = new MenuScene(Window.keyListener);
+                Window.currentScene = new MenuScene(Window.keyListener, Window.mouseListener);
                 break;
             case 1:
                 Window.currentScene = new GameScene();
