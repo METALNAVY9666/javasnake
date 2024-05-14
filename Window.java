@@ -1,10 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 
 
 public class Window extends JFrame implements Runnable {
     // Variable to track window state
     public boolean isRunning;
+    // Static variables for current state and scene
+    public static int currentState;
+    public static Scene currentScene;
+    // Static key listener
+    public static KL keyListener = new KL();
     // Constructor for creating window
     public Window (int width, int height, String title) {
         // Setting window size, title, resizable option, and visibility
@@ -14,7 +20,31 @@ public class Window extends JFrame implements Runnable {
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Adding key listener to the window
+        addKeyListener(Window.keyListener);
+
+        // Setting initial state and scene
         isRunning = true;
+        Window.changeState(0);
+    }
+
+    // Method to change the current state and scene
+    public static void changeState(int newState) {
+        Window.currentState = newState;
+
+        // Creating corresponding scene based on the state
+        switch (Window.currentState) {
+            case 0:
+                Window.currentScene = new MenuScene(Window.keyListener);
+                break;
+            case 1:
+                Window.currentScene = new GameScene();
+                break;
+            default:
+                System.out.println("Unknown scene");
+                Window.currentScene = null;
+                break;
+        }
     }
 
     // Method for updating window content
@@ -27,13 +57,16 @@ public class Window extends JFrame implements Runnable {
         this.draw(g);
         // Displaying the image on the window
         getGraphics().drawImage(dbImage, 0, 0, this);
+
+        currentScene.update(deltaTime);
     }
 
     // Method for drawing window content
     public void draw (Graphics g) {
         Graphics2D g2D = (Graphics2D)g;
-        g2D.setColor(Color.black);
-        g2D.fillRect(0, 0, getWidth(), getHeight());
+
+        // Drawing current scene
+        currentScene.draw(g);
     }
 
     // Overridden run method from Runnable interface
