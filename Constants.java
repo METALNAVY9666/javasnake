@@ -4,5 +4,4 @@ public class Constants {
     public static final String SCREEN_TITLE = "Snake";
 
     public static final float TILE_WIDTH = 24;
-    public static final int AUTO_GROW_RENEW = 30; // 30 frames
 }

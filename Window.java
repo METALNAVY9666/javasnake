@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-
+import java.io.IOException;
 
 public class Window extends JFrame implements Runnable {
     public static Window window = null;
@@ -14,7 +14,7 @@ public class Window extends JFrame implements Runnable {
     public ML mouseListener = new ML();
 
     // Constructor for creating window
-    public Window (int width, int height, String title) {
+    public Window(int width, int height, String title) throws IOException {
         // Setting window size, title, resizable option, and visibility
         setSize(width, height);
         setTitle(title);
@@ -35,7 +35,7 @@ public class Window extends JFrame implements Runnable {
     }
 
     // Method to get the window instance
-    public static Window getWindow() {
+    public static Window getWindow() throws IOException {
         if (Window.window == null) {
             Window.window = new Window(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Constants.SCREEN_TITLE);
         }
@@ -48,7 +48,7 @@ public class Window extends JFrame implements Runnable {
     }
 
     // Method to change the current state and scene
-    public void changeState(int newState) {
+    public void changeState(int newState) throws IOException {
         currentState = newState;
 
         // Creating corresponding scene based on the state
@@ -70,7 +70,7 @@ public class Window extends JFrame implements Runnable {
     }
 
     // Method for updating window content
-    public void update(double deltaTime) {
+    public void update(double deltaTime) throws IOException {
         // Creating an image with window dimensions
         Image dbImage = createImage(getWidth(), getHeight());
         // Getting graphics context of the image
@@ -84,8 +84,8 @@ public class Window extends JFrame implements Runnable {
     }
 
     // Method for drawing window content
-    public void draw (Graphics g) {
-        Graphics2D g2D = (Graphics2D)g;
+    public void draw(Graphics g) {
+        Graphics2D g2D = (Graphics2D) g;
         // Drawing current scene
         currentScene.draw(g);
     }

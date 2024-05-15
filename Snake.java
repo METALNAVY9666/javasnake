@@ -1,5 +1,8 @@
 import java.awt.*;
 import java.util.concurrent.RecursiveAction;
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
 
 public abstract class Snake {
     public Rect[] body = new Rect[100];
@@ -20,12 +23,26 @@ public abstract class Snake {
     public double ogWaitBetweenUpdates = 0.1f;
     public double waitTimeLeft = ogWaitBetweenUpdates;
     public Rect background;
+    public int growFactor;
 
-    public Snake(int size, double startX, double startY, double bodyWidth, double bodyHeight, Rect background) {
+    public Integer getGrowFactor() throws IOException {
+        File file = new File("settings.txt");
+        Scanner sc = new Scanner(file);
+        String text = "";
+        while (sc.hasNextLine()) {
+            text = text + sc.nextLine();
+        }
+        sc.close();
+        return Integer.parseInt(text);
+    }
+
+    public Snake(int size, double startX, double startY, double bodyWidth, double bodyHeight, Rect background)
+            throws IOException {
         this.size = size;
         this.bodyWidth = bodyWidth;
         this.bodyHeight = bodyHeight;
         this.background = background;
+        this.growFactor = getGrowFactor();
 
         // Creating body segments and populating the body array
         for (int i = 0; i <= size; i++) {
@@ -50,7 +67,7 @@ public abstract class Snake {
     }
 
     // Method to update the position and state of the snake
-    public void update(double deltaTime) {
+    public void update(double deltaTime) throws IOException {
         // Check if the snake should move based on the time elapsed
         if (waitTimeLeft > 0) {
             waitTimeLeft -= deltaTime;
@@ -58,7 +75,7 @@ public abstract class Snake {
         }
 
         autoGrow++;
-        if (this.autoGrow == Constants.AUTO_GROW_RENEW) {
+        if (this.autoGrow == this.growFactor) {
             this.autoGrow = 0;
             this.grow();
         }
@@ -120,6 +137,9 @@ public abstract class Snake {
     }
 
     public void shrink() {
+        if ((this.head - this.tail) < 2) {
+            return;
+        }
         this.body[this.tail] = null;
         this.tail++;
     }

@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.IOException;
 
 // Abstract class representing a scene in a graphical application
 public abstract class Scene {
@@ -21,7 +22,8 @@ public abstract class Scene {
     }
 
     // Abstract method to update the scene based on elapsed time
-    public abstract void update(double deltaTime);
+    public abstract void update(double deltaTime) throws IOException;
+
     // Abstract method to draw the scene using graphics context
     public abstract void draw(Graphics g);
 }

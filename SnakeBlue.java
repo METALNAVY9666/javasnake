@@ -1,8 +1,10 @@
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 
 public class SnakeBlue extends Snake {
-    public SnakeBlue(int size, double startX, double startY, double bodyWidth, double bodyHeight, Rect background) {
+    public SnakeBlue(int size, double startX, double startY, double bodyWidth, double bodyHeight, Rect background)
+            throws IOException {
         super(size, startX, startY, bodyWidth, bodyHeight, background);
     }
 
@@ -14,7 +16,6 @@ public class SnakeBlue extends Snake {
             double subWidth = (piece.width - 6.0) / 2.0;
             double subHeight = (piece.height - 6.0) / 2.0;
 
-
             // Setting color for a snake
             g2D.setColor(Color.BLUE);
 
@@ -22,7 +23,7 @@ public class SnakeBlue extends Snake {
             g2D.fill(new Rectangle2D.Double(piece.x + 2.0, piece.y + 2.0, subWidth, subHeight));
             g2D.fill(new Rectangle2D.Double(piece.x + 4.0 + subWidth, piece.y + 2.0, subWidth, subHeight));
             g2D.fill(new Rectangle2D.Double(piece.x + 2.0, piece.y + 4.0 + subHeight, subWidth, subHeight));
-            g2D.fill(new Rectangle2D.Double(piece.x + 4.0 + subWidth, piece.y + 4.0 + subHeight , subWidth, subHeight));
+            g2D.fill(new Rectangle2D.Double(piece.x + 4.0 + subWidth, piece.y + 4.0 + subHeight, subWidth, subHeight));
         }
     }
 }
