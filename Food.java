@@ -3,7 +3,7 @@ import java.awt.Color;
 
 public class Food {
     public Rect background;
-    public Snake snake;
+    public Snake[] snakes;
     public int width, height;
     public Color color;
     public Rect rect;
@@ -12,9 +12,9 @@ public class Food {
 
     public boolean spawned = false;
 
-    public Food(Rect background, Snake snake, int width, int height, Color color) {
+    public Food(Rect background, Snake[] snakes, int width, int height, Color color) {
         this.background = background; // background where the render is made
-        this.snake = snake; // snake
+        this.snakes = snakes; // snake
         this.width = width; // width of the food
         this.height = height; // height of the food
         this.color = color; // color of the food
@@ -30,19 +30,30 @@ public class Food {
                     * Constants.TILE_WIDTH + this.background.x;
             this.rect.y = (int) (Math.random() * (int) (this.background.height / Constants.TILE_WIDTH))
                     * Constants.TILE_WIDTH + this.background.y;
-        } while (snake.intersectingWithRect(this.rect));
+        } while (this.intersectingWithSnake());
         this.spawned = true;
     }
 
     // explicit
     public void update(double dt) {
-        if (this.snake.intersectingWithRect(this.rect)) {
-            this.snake.shrink();
-            // move the food away from the screen
-            this.rect.x = -100;
-            this.rect.y = -100;
-            spawned = false;
+        for (Snake snake : this.snakes) {
+            if (snake.intersectingWithRect(this.rect)) {
+                snake.shrink();
+                // move the food away from the screen
+                this.rect.x = -100;
+                this.rect.y = -100;
+                spawned = false;
+            }
         }
+    }
+
+    private boolean intersectingWithSnake() {
+        for (Snake snake : this.snakes) {
+            if (snake.intersectingWithRect(this.rect)) {
+                return true; // если есть пересечение, вернем true
+            }
+        }
+        return false;
     }
 
     // draws the food on the screen

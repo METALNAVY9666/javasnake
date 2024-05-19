@@ -1,11 +1,11 @@
 import java.awt.*;
-import java.util.concurrent.RecursiveAction;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-public abstract class Snake {
-    public Rect[] body = new Rect[100];
+public class Snake {
+    public Rect[] body = new Rect[1000];
     // Width and height of each body segment
     public double bodyWidth, bodyHeight;
     // Size of the snake
@@ -66,25 +66,7 @@ public abstract class Snake {
         }
     }
 
-    // Method to update the position and state of the snake
-    public void update(double deltaTime) throws IOException {
-        // Check if the snake should move based on the time elapsed
-        if (waitTimeLeft > 0) {
-            waitTimeLeft -= deltaTime;
-            return;
-        }
-
-        autoGrow++;
-        if (this.autoGrow == this.growFactor) {
-            this.autoGrow = 0;
-            this.grow();
-        }
-
-        if (intersectingWithSelf()) {
-            Window.getWindow().changeState(0);
-        }
-
-        // Reset the timer and calculate the new position for the head of the snake
+    private void updateSnakePosition() {
         waitTimeLeft = ogWaitBetweenUpdates;
         double newX = 0;
         double newY = 0;
@@ -111,6 +93,28 @@ public abstract class Snake {
 
         body[head].x = newX;
         body[head].y = newY;
+    }
+
+    // Method to update the position and state of the snake
+    public void update(double deltaTime) throws IOException {
+        // Check if the snake should move based on the time elapsed
+        if (waitTimeLeft > 0) {
+            waitTimeLeft -= deltaTime;
+            return;
+        }
+
+        autoGrow++;
+        if (this.autoGrow == this.growFactor) {
+            this.autoGrow = 0;
+            this.grow();
+        }
+
+        if (intersectingWithSelf()) {
+            Window.getWindow().changeState(0);
+        }
+
+        // Reset the timer and calculate the new position for the head of the snake
+        this.updateSnakePosition();
     }
 
     public void grow() {
@@ -175,5 +179,21 @@ public abstract class Snake {
                 head.y < background.y || (head.y + head.height) > background.y + background.height);
     }
 
-    public abstract void draw(Graphics2D g2D);
+    public void draw(Graphics2D g2D, Color color) {
+        for (int i = tail; i != head; i = (i + 1) % body.length) {
+            Rect piece = body[i];
+            // Calculating dimensions for drawing the segment
+            double subWidth = (piece.width - 6.0) / 2.0;
+            double subHeight = (piece.height - 6.0) / 2.0;
+
+            // Setting color for a snake
+            g2D.setColor(color);
+
+            // Drawing rectangles to represent the segment
+            g2D.fill(new Rectangle2D.Double(piece.x + 2.0, piece.y + 2.0, subWidth, subHeight));
+            g2D.fill(new Rectangle2D.Double(piece.x + 4.0 + subWidth, piece.y + 2.0, subWidth, subHeight));
+            g2D.fill(new Rectangle2D.Double(piece.x + 2.0, piece.y + 4.0 + subHeight, subWidth, subHeight));
+            g2D.fill(new Rectangle2D.Double(piece.x + 4.0 + subWidth, piece.y + 4.0 + subHeight, subWidth, subHeight));
+        }
+    }
 }

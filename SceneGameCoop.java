@@ -5,35 +5,31 @@ import java.io.IOException;
 
 public class SceneGameCoop extends Scene {
     private boolean collisionDetected = false;
-    public SnakeRed snakeRed;
-    public SnakeBlue snakeBlue;
-    public Food foodRed;
-    public Food foodBlue;
+    public Snake snakeRed;
+    public Snake snakeBlue;
+    public Food food;
 
     public SceneGameCoop(KL keyListener) throws IOException {
         super(keyListener);
         // Initialize the snake with starting parameters
-        snakeRed = new SnakeRed(2, 48, 48 + 24, 24, 24, super.foreground);
-        snakeBlue = new SnakeBlue(2, 48, 216 + 24, 24, 24, super.foreground);
-
-        foodRed = new Food(foreground, snakeRed, 12, 12, Color.RED);
-        foodBlue = new Food(foreground, snakeBlue, 12, 12, Color.BLUE);
-        foodRed.spawn();
-        foodBlue.spawn();
+        snakeRed = new Snake(2, 48, 48 + 24, 24, 24, super.foreground);
+        snakeBlue = new Snake(2, 48, 216 + 24, 24, 24, super.foreground);
+        food = new Food(foreground, new Snake[]{snakeRed, snakeBlue}, 12, 12, Color.BLACK);
+        food.spawn();
     }
 
     public boolean checkCollision() {
-        // Перебираем все сегменты каждой змейки
+        // Iterate through all segments of each snake
         for (Rect segmentRed : snakeRed.body) {
             for (Rect segmentBlue : snakeBlue.body) {
-                // Проверяем столкновение каждого сегмента одной змейки с каждым сегментом
-                // другой змейки
+                // Check collision of each segment of one snake with each segment of
+                // the other snake
                 if (Snake.intersecting(segmentRed, segmentBlue)) {
-                    return true; // Если есть столкновение, возвращаем true
+                    return true; // If collision occurs, return true
                 }
             }
         }
-        return false; // Если столкновений не найдено, возвращаем false
+        return false; // If no collisions found, return false
     }
 
     // Method to update the game state
@@ -48,34 +44,14 @@ public class SceneGameCoop extends Scene {
         }
 
         // Check for user input to change snake direction
-        if (super.keyListener.isKeyPressed(KeyEvent.VK_UP)) {
-            snakeRed.changeDirection(Direction.UP);
-        } else if (super.keyListener.isKeyPressed(KeyEvent.VK_DOWN)) {
-            snakeRed.changeDirection(Direction.DOWN);
-        } else if (super.keyListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
-            snakeRed.changeDirection(Direction.RIGHT);
-        } else if (super.keyListener.isKeyPressed(KeyEvent.VK_LEFT)) {
-            snakeRed.changeDirection(Direction.LEFT);
-        }
+        Control.arrowsControl(super.keyListener, snakeRed);
+        Control.wasdControl(super.keyListener, snakeBlue);
 
-        if (super.keyListener.isKeyPressed(KeyEvent.VK_W)) {
-            snakeBlue.changeDirection(Direction.UP);
-        } else if (super.keyListener.isKeyPressed(KeyEvent.VK_S)) {
-            snakeBlue.changeDirection(Direction.DOWN);
-        } else if (super.keyListener.isKeyPressed(KeyEvent.VK_D)) {
-            snakeBlue.changeDirection(Direction.RIGHT);
-        } else if (super.keyListener.isKeyPressed(KeyEvent.VK_A)) {
-            snakeBlue.changeDirection(Direction.LEFT);
-        }
-
-        if (!foodRed.spawned)
-            foodRed.spawn();
-        if (!foodBlue.spawned)
-            foodBlue.spawn();
+        if (!food.spawned)
+            food.spawn();
 
         // update the food position and state
-        foodRed.update(deltaTime);
-        foodBlue.update(deltaTime);
+        food.update(deltaTime);
 
         snakeRed.update(deltaTime);
         snakeBlue.update(deltaTime);
@@ -85,23 +61,14 @@ public class SceneGameCoop extends Scene {
     @Override
     public void draw(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
-        // Set the color to black
-        g2D.setColor(Color.BLACK);
-        // Fill a rectangle to represent the background of the game scene
-        g2D.fill(new Rectangle2D.Double(super.background.x, super.background.y, super.background.width,
-                super.background.height));
 
-        // Set the color to green for the foreground
-        g2D.setColor(Color.GREEN);
-        // Fill a rectangle to represent the foreground of the game scene
-        g2D.fill(new Rectangle2D.Double(super.foreground.x, super.foreground.y, super.foreground.width,
-                super.foreground.height));
+        // Drawing the playground
+        super.drawGround(g2D);
 
         // Drawing the snake
-        snakeRed.draw(g2D);
-        snakeBlue.draw(g2D);
+        snakeRed.draw(g2D, Color.RED);
+        snakeBlue.draw(g2D, Color.BLUE);
 
-        foodRed.draw(g2D);
-        foodBlue.draw(g2D);
+        food.draw(g2D);
     }
 }

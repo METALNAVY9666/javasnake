@@ -101,10 +101,7 @@ public class SceneMenu extends Scene {
         return Integer.parseInt(text);
     }
 
-    @Override
-    public void update(double deltaTime) throws IOException {
-        // Check if mouse is over the "One player" button and if it's pressed, change
-        // the game state
+    private void mouseOverOnePlayer() throws IOException {
         if (super.mouseListener.getX() >= onePlayerRect.x
                 && super.mouseListener.getX() <= onePlayerRect.x + onePlayerRect.width &&
                 super.mouseListener.getY() >= onePlayerRect.y
@@ -113,8 +110,9 @@ public class SceneMenu extends Scene {
                 Window.getWindow().changeState(1);
             }
         }
-        // Check if mouse is over the "Two players" button and if it's pressed, change
-        // the game state
+    }
+
+    private void mouseOverTwoPlayers() throws IOException {
         if (super.mouseListener.getX() >= twoPlayersRect.x
                 && super.mouseListener.getX() <= twoPlayersRect.x + twoPlayersRect.width &&
                 super.mouseListener.getY() >= twoPlayersRect.y
@@ -123,7 +121,9 @@ public class SceneMenu extends Scene {
                 Window.getWindow().changeState(2);
             }
         }
-        // Check if mouse is over the "Exit" button and if it's pressed, close the game
+    }
+
+    private void mouseOverExit() throws IOException {
         if (super.mouseListener.getX() >= exitRect.x && super.mouseListener.getX() <= exitRect.x + exitRect.width &&
                 super.mouseListener.getY() >= exitRect.y
                 && super.mouseListener.getY() <= exitRect.y + exitRect.height) {
@@ -131,9 +131,9 @@ public class SceneMenu extends Scene {
                 Window.getWindow().close();
             }
         }
+    }
 
-        // Check if mouse is over the "Difficulty" button and if it's pressed, show the
-        // difficulty prompt
+    private void mouseOverDifficulty() throws IOException {
         if (super.mouseListener.getX() >= difficultyRect.x
                 && super.mouseListener.getX() <= difficultyRect.x + difficultyRect.width &&
                 super.mouseListener.getY() >= difficultyRect.y
@@ -142,7 +142,24 @@ public class SceneMenu extends Scene {
                 this.setDifficulty();
             }
         }
+    }
 
+    @Override
+    public void update(double deltaTime) throws IOException {
+        // Check if mouse is over the "One player" button and if it's pressed, change
+        // the game state
+        this.mouseOverOnePlayer();
+
+        // Check if mouse is over the "Two players" button and if it's pressed, change
+        // the game state
+        this.mouseOverTwoPlayers();
+
+        // Check if mouse is over the "Exit" button and if it's pressed, close the game
+        this.mouseOverExit();
+
+        // Check if mouse is over the "Difficulty" button and if it's pressed, show the
+        // difficulty prompt
+        this.mouseOverDifficulty();
     }
 
     // Implementation of the draw method from the Scene class
