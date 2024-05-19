@@ -8,6 +8,13 @@ public abstract class Scene {
     public Rect background, foreground;
     public KL keyListener;
 
+    public Scene () {
+        // Initialize the background rectangle to cover the entire screen
+        background = new Rect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+        // Initialize the foreground rectangle with specific dimensions
+        foreground = new Rect(24, 48, Constants.TILE_WIDTH * 31, Constants.TILE_WIDTH * 22);
+    }
+
     public Scene(KL keyListener) {
         // Initialize the background rectangle to cover the entire screen
         background = new Rect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
@@ -20,6 +27,32 @@ public abstract class Scene {
     public Scene(KL keyListener, ML mouseListener) {
         this.keyListener = keyListener;
         this.mouseListener = mouseListener;
+    }
+
+    public Food[] generateFood(SnakeIA snakeRed, SnakeIA snakeBlue) {
+        return getFoods(snakeRed, snakeBlue);
+    }
+
+    public Food[] generateFood(Snake snakeRed, Snake snakeBlue) {
+        return getFoods(snakeRed, snakeBlue);
+    }
+
+    public Food[] getFoods(Snake snakeRed, Snake snakeBlue) {
+        int randomNumber = (int) (Math.random() * 5) + 1;
+        Food[] foods = new Food[randomNumber];
+
+        for (int i = 0; i < foods.length; i++) {
+            foods[i] = new Food(foreground, new Snake[]{snakeRed, snakeBlue}, 16, 16, Color.BLACK);
+            foods[i].spawn();
+        }
+        return foods;
+    }
+
+    public void checkFoodSpawned(Food[] foods) {
+        for (Food food : foods) {
+            if (!food.spawned)
+                food.spawn();
+        }
     }
 
     public void drawGround(Graphics2D g2D) {

@@ -25,16 +25,7 @@ public class Snake {
     public Rect background;
     public int growFactor;
 
-    public Integer getGrowFactor() throws IOException {
-        File file = new File("settings.txt");
-        Scanner sc = new Scanner(file);
-        String text = "";
-        while (sc.hasNextLine()) {
-            text = text + sc.nextLine();
-        }
-        sc.close();
-        return Integer.parseInt(text);
-    }
+    public Food[] foods;
 
     public Snake(int size, double startX, double startY, double bodyWidth, double bodyHeight, Rect background)
             throws IOException {
@@ -51,6 +42,21 @@ public class Snake {
             head++; // Incrementing head to point to the last element
         }
         head--; // Adjusting head to point to the correct index
+    }
+
+    public Integer getGrowFactor() throws IOException {
+        File file = new File("settings.txt");
+        Scanner sc = new Scanner(file);
+        String text = "";
+        while (sc.hasNextLine()) {
+            text = text + sc.nextLine();
+        }
+        sc.close();
+        return Integer.parseInt(text);
+    }
+
+    public void setFoods(Food[] foods) {
+        this.foods = foods;
     }
 
     // Method to change the direction of the snake
@@ -95,28 +101,6 @@ public class Snake {
         body[head].y = newY;
     }
 
-    // Method to update the position and state of the snake
-    public void update(double deltaTime) throws IOException {
-        // Check if the snake should move based on the time elapsed
-        if (waitTimeLeft > 0) {
-            waitTimeLeft -= deltaTime;
-            return;
-        }
-
-        autoGrow++;
-        if (this.autoGrow == this.growFactor) {
-            this.autoGrow = 0;
-            this.grow();
-        }
-
-        if (intersectingWithSelf()) {
-            Window.getWindow().changeState(0);
-        }
-
-        // Reset the timer and calculate the new position for the head of the snake
-        this.updateSnakePosition();
-    }
-
     public void grow() {
         double newX = 0;
         double newY = 0;
@@ -136,8 +120,9 @@ public class Snake {
         }
         Rect newBodyPiece = new Rect(newX, newY, bodyWidth, bodyHeight);
 
-        tail = (tail - 1) % body.length;
-        body[tail] = newBodyPiece;
+        int newTail = (tail - 1 + body.length) % body.length;
+        body[newTail] = newBodyPiece;
+        tail = newTail;
     }
 
     public void shrink() {
@@ -177,6 +162,28 @@ public class Snake {
     public boolean intersectingWithScreenBoundaries(Rect head) {
         return (head.x < background.x || (head.x + head.width) > background.x + background.width ||
                 head.y < background.y || (head.y + head.height) > background.y + background.height);
+    }
+
+    // Method to update the position and state of the snake
+    public void update(double deltaTime) throws IOException {
+        // Check if the snake should move based on the time elapsed
+        if (waitTimeLeft > 0) {
+            waitTimeLeft -= deltaTime;
+            return;
+        }
+
+        autoGrow++;
+        if (this.autoGrow == this.growFactor) {
+            this.autoGrow = 0;
+            this.grow();
+        }
+
+        if (intersectingWithSelf()) {
+            Window.getWindow().changeState(0);
+        }
+
+        // Reset the timer and calculate the new position for the head of the snake
+        this.updateSnakePosition();
     }
 
     public void draw(Graphics2D g2D, Color color) {

@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 public class SceneMenu extends Scene {
     // BufferedImages for menu items
-    public BufferedImage title, onePlayer, twoPlayers, exit, difficulty;
+    public BufferedImage title, onePlayer, twoPlayers, AI, exit, difficulty;
     // Rectangles to define the position and size of menu items
-    public Rect titleRect, onePlayerRect, twoPlayersRect, exitRect, difficultyRect;
+    public Rect titleRect, onePlayerRect, twoPlayersRect, AIRect, exitRect, difficultyRect;
 
     public boolean difficultyPromptLock = false;
 
@@ -26,6 +26,7 @@ public class SceneMenu extends Scene {
             title = ImageIO.read(new File("src/assets/snake_title.png"));
             onePlayer = ImageIO.read(new File("src/assets/players.png")).getSubimage(0, 0, 100, 200);
             twoPlayers = ImageIO.read(new File("src/assets/players.png"));
+            AI = ImageIO.read(new File("src/assets/ai.png"));
             exit = ImageIO.read(new File("src/assets/exit.png"));
             difficulty = ImageIO.read(new File("src/assets/difficulty.png"));
         } catch (Exception e) {
@@ -36,7 +37,8 @@ public class SceneMenu extends Scene {
         titleRect = new Rect(250, 70, 300, 100);
         onePlayerRect = new Rect(360, 200, 60, 100);
         twoPlayersRect = new Rect(330, 320, 120, 100);
-        exitRect = new Rect(350, 450, 100, 100);
+        AIRect = new Rect(320 ,420, 150, 150);
+        exitRect = new Rect(50, 520, 70, 70);
         difficultyRect = new Rect(720, 520, 64, 64);
     }
 
@@ -47,7 +49,7 @@ public class SceneMenu extends Scene {
             System.out.println("is numeric");
             return true;
         } catch (NumberFormatException nfe) {
-            System.out.println("isnt numeric");
+            System.out.println("isn't numeric");
             return false;
         }
     }
@@ -123,6 +125,17 @@ public class SceneMenu extends Scene {
         }
     }
 
+    private void mouseOverAI() throws IOException {
+        if (super.mouseListener.getX() >= AIRect.x
+                && super.mouseListener.getX() <= AIRect.x + AIRect.width &&
+                super.mouseListener.getY() >= AIRect.y
+                && super.mouseListener.getY() <= AIRect.y + AIRect.height) {
+            if (super.mouseListener.isPressed()) {
+                Window.getWindow().changeState(3);
+            }
+        }
+    }
+
     private void mouseOverExit() throws IOException {
         if (super.mouseListener.getX() >= exitRect.x && super.mouseListener.getX() <= exitRect.x + exitRect.width &&
                 super.mouseListener.getY() >= exitRect.y
@@ -154,6 +167,10 @@ public class SceneMenu extends Scene {
         // the game state
         this.mouseOverTwoPlayers();
 
+        // Check if mouse is over the "AI" button and if it's pressed, change
+        // the game state
+        this.mouseOverAI();
+
         // Check if mouse is over the "Exit" button and if it's pressed, close the game
         this.mouseOverExit();
 
@@ -176,6 +193,7 @@ public class SceneMenu extends Scene {
                 (int) onePlayerRect.height, null);
         g.drawImage(twoPlayers, (int) twoPlayersRect.x, (int) twoPlayersRect.y, (int) twoPlayersRect.width,
                 (int) twoPlayersRect.height, null);
+        g.drawImage(AI, (int) AIRect.x, (int) AIRect.y, (int) AIRect.width, (int) AIRect.height, null);
         g.drawImage(exit, (int) exitRect.x, (int) exitRect.y, (int) exitRect.width, (int) exitRect.height, null);
         g.drawImage(difficulty, (int) difficultyRect.x, (int) difficultyRect.y, (int) difficultyRect.width,
                 (int) difficultyRect.height, null);

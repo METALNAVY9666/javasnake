@@ -23,6 +23,7 @@ public class Food {
         this.xPadding = (int) ((Constants.TILE_WIDTH - this.width) / 2.0);
     }
 
+
     // appears the food on the rect
     public void spawn() {
         do {
@@ -34,19 +35,6 @@ public class Food {
         this.spawned = true;
     }
 
-    // explicit
-    public void update(double dt) {
-        for (Snake snake : this.snakes) {
-            if (snake.intersectingWithRect(this.rect)) {
-                snake.shrink();
-                // move the food away from the screen
-                this.rect.x = -100;
-                this.rect.y = -100;
-                spawned = false;
-            }
-        }
-    }
-
     private boolean intersectingWithSnake() {
         for (Snake snake : this.snakes) {
             if (snake.intersectingWithRect(this.rect)) {
@@ -54,6 +42,21 @@ public class Food {
             }
         }
         return false;
+    }
+
+    // explicit
+    public void update(double dt) {
+        for (Snake snake : this.snakes) {
+            if (snake.intersectingWithRect(this.rect)) {
+                snake.shrink();
+                // move the food away from the screen
+                this.rect.x = -10000;
+                this.rect.y = -10000;
+                spawned = false;
+                System.out.println("Nyam");
+                break;
+            }
+        }
     }
 
     // draws the food on the screen

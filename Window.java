@@ -62,6 +62,9 @@ public class Window extends JFrame implements Runnable {
             case 2:
                 currentScene = new SceneGameCoop(keyListener);
                 break;
+            case 3:
+                currentScene = new SceneGameTwoAI();
+                break;
             default:
                 System.out.println("Unknown scene");
                 currentScene = null;
