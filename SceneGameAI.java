@@ -5,12 +5,15 @@ public class SceneGameAI extends SceneGameCoop {
     public Snake snakeRed;
     public SnakeIA snakeBlue;
     public Food[] foods;
+    public Control control;
 
     public SceneGameAI(KL keyListener) throws IOException {
         super(keyListener);
         // Initialize the snake with starting parameters
         snakeRed = new Snake(2, 48, 48 + 24, 24, 24, super.foreground);
         snakeBlue = new SnakeIA(2, 48, 216 + 24, 24, 24, super.foreground);
+
+        this.control = new Control(keyListener);
 
         this.foods = super.generateFood(snakeRed, snakeBlue);
         snakeRed.setFoods(this.foods);
@@ -34,17 +37,16 @@ public class SceneGameAI extends SceneGameCoop {
     // Method to update the game state
     @Override
     public void update(double deltaTime) throws IOException {
-        // Check for user input to change snake direction
-        Control.arrowsControl(keyListener, snakeRed);
-        Control.wasdControl(keyListener, snakeRed);
-        Control.zqsdControl(keyListener, snakeRed);
-
         if (this.checkCollision()) {
             Window.getWindow().changeState(0);
         }
 
-        super.checkFoodSpawned(this.foods);
+        // Check for user input to change snake direction
+        control.arrowsControl(snakeRed);
+        control.wasdControl(snakeRed);
+        control.zqsdControl(snakeRed);
 
+        super.checkFoodSpawned(this.foods);
 
         // update the food position and state
         for (Food food : this.foods) {

@@ -7,12 +7,16 @@ public class SceneGameCoop extends Scene {
     public Snake snakeRed;
     public Snake snakeBlue;
     public Food[] foods;
+    public Control control;
 
     public SceneGameCoop(KL keyListener) throws IOException {
         super(keyListener);
         // Initialize the snake with starting parameters
         snakeRed = new Snake(2, 48, 48 + 24, 24, 24, super.foreground);
         snakeBlue = new Snake(2, 48, 216 + 24, 24, 24, super.foreground);
+
+        this.control = new Control(keyListener);
+
         this.foods = super.generateFood(snakeRed, snakeBlue);
 
         snakeRed.setFoods(this.foods);
@@ -43,8 +47,8 @@ public class SceneGameCoop extends Scene {
         }
 
         // Check for user input to change snake direction
-        Control.arrowsControl(super.keyListener, snakeRed);
-        Control.wasdControl(super.keyListener, snakeBlue);
+        control.arrowsControl(snakeRed);
+        control.wasdControl(snakeBlue);
 
         super.checkFoodSpawned(this.foods);
 

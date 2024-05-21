@@ -36,8 +36,8 @@ public class SceneGameTwoAI extends Scene {
             Window.getWindow().changeState(0);
         }
 
-        super.checkFoodSpawned(this.foods);
         // update the food position and state
+        super.checkFoodSpawned(this.foods);
         for (Food food : this.foods) {
             food.update(deltaTime);
         }

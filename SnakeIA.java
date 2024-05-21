@@ -1,6 +1,4 @@
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class SnakeIA extends Snake {
 
@@ -14,7 +12,6 @@ public class SnakeIA extends Snake {
         double minDistance = Double.MAX_VALUE;
 
         for (Food food : foods) {
-            // Рассчитываем расстояние между головой змейки и текущей едой
             double distance = Math.sqrt(Math.pow(body[head].x - food.rect.x, 2) + Math.pow(body[head].y - food.rect.y, 2));
             if (distance < minDistance) {
                 minDistance = distance;
@@ -54,10 +51,6 @@ public class SnakeIA extends Snake {
     @Override
     public void update(double deltaTime) throws IOException {
         Rect nearestFood = findNearestFood();
-        System.out.println("Nearest Food x: " + nearestFood.x);
-        System.out.println("Nearest Food y: " + nearestFood.y);
-        System.out.println("Nearest Food w: " + nearestFood.width);
-        System.out.println("Nearest Food h: " + nearestFood.height);
         if (nearestFood != null) {
             this.findFoodDirection(nearestFood);
         }
