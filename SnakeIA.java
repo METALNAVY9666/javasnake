@@ -12,7 +12,8 @@ public class SnakeIA extends Snake {
         double minDistance = Double.MAX_VALUE;
 
         for (Food food : foods) {
-            double distance = Math.sqrt(Math.pow(body[head].x - food.rect.x, 2) + Math.pow(body[head].y - food.rect.y, 2));
+            double distance = Math
+                    .sqrt(Math.pow(body[head].x - food.rect.x, 2) + Math.pow(body[head].y - food.rect.y, 2));
             if (distance < minDistance) {
                 minDistance = distance;
                 nearestFood = food.rect;
@@ -25,6 +26,8 @@ public class SnakeIA extends Snake {
     private void findFoodDirection(Rect food) {
         double headX = body[head].x;
         double headY = body[head].y;
+
+        // Bro in english please !
 
         // Рассчитываем разницу между координатами головы и еды
         double diffX = food.x - headX;

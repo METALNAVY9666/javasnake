@@ -179,7 +179,7 @@ public class Snake {
         }
 
         if (intersectingWithSelf()) {
-            Window.getWindow().changeState(0);
+            Window.getWindow().changeState(4);
         }
 
         // Reset the timer and calculate the new position for the head of the snake

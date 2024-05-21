@@ -38,7 +38,7 @@ public class SceneGameAI extends SceneGameCoop {
     @Override
     public void update(double deltaTime) throws IOException {
         if (this.checkCollision()) {
-            Window.getWindow().changeState(0);
+            Window.getWindow().changeState(4);
         }
 
         // Check for user input to change snake direction

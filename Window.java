@@ -65,6 +65,9 @@ public class Window extends JFrame implements Runnable {
             case 3:
                 currentScene = new SceneGameTwoAI();
                 break;
+            case 4:
+                currentScene = new SceneGameOver();
+                break;
             default:
                 System.out.println("Unknown scene");
                 currentScene = null;
