@@ -8,7 +8,16 @@ public abstract class Scene {
     public Rect background, foreground;
     public KL keyListener;
 
-    public Scene () {
+    public String getHomePath() {
+        if (System.getProperty("os.name").contains("Linux")) {
+            return "./assets/";
+        }
+        return "src/assets/";
+    }
+
+    public String homePath = getHomePath();
+
+    public Scene() {
         // Initialize the background rectangle to cover the entire screen
         background = new Rect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         // Initialize the foreground rectangle with specific dimensions
@@ -29,6 +38,11 @@ public abstract class Scene {
         this.mouseListener = mouseListener;
     }
 
+    // returns the path of the texture of a png file using the right os
+    public String getTexture(String filename) {
+        return this.homePath + filename + ".png";
+    }
+
     public Food[] generateFood(SnakeIA snakeRed, SnakeIA snakeBlue) {
         return getFoods(snakeRed, snakeBlue);
     }
@@ -42,7 +56,7 @@ public abstract class Scene {
         Food[] foods = new Food[randomNumber];
 
         for (int i = 0; i < foods.length; i++) {
-            foods[i] = new Food(foreground, new Snake[]{snakeRed, snakeBlue}, 16, 16, Color.BLACK);
+            foods[i] = new Food(foreground, new Snake[] { snakeRed, snakeBlue }, 16, 16, Color.BLACK);
             foods[i].spawn();
         }
         return foods;

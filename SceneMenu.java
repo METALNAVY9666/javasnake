@@ -22,14 +22,17 @@ public class SceneMenu extends Scene {
         super(keyListener, mouseListener);
 
         try {
+
             // Loading images for menu items from file
-            title = ImageIO.read(new File("src/assets/snake_title.png"));
-            onePlayer = ImageIO.read(new File("src/assets/players.png")).getSubimage(0, 0, 100, 200);
-            twoPlayers = ImageIO.read(new File("src/assets/players.png"));
-            AI = ImageIO.read(new File("src/assets/ai.png"));
-            exit = ImageIO.read(new File("src/assets/exit.png"));
-            difficulty = ImageIO.read(new File("src/assets/difficulty.png"));
+            title = ImageIO.read(new File(getTexture("snake_title")));
+            onePlayer = ImageIO.read(new File(getTexture("players"))).getSubimage(0, 0, 100, 200);
+            twoPlayers = ImageIO.read(new File(getTexture("players")));
+            AI = ImageIO.read(new File(getTexture("ai")));
+            exit = ImageIO.read(new File(getTexture("exit")));
+            difficulty = ImageIO.read(new File(getTexture("difficulty")));
         } catch (Exception e) {
+            System.out.println(this.homePath);
+            System.out.println(getTexture("snake_title"));
             e.printStackTrace();
         }
 
@@ -37,7 +40,7 @@ public class SceneMenu extends Scene {
         titleRect = new Rect(250, 70, 300, 100);
         onePlayerRect = new Rect(360, 200, 60, 100);
         twoPlayersRect = new Rect(330, 320, 120, 100);
-        AIRect = new Rect(320 ,420, 150, 150);
+        AIRect = new Rect(320, 420, 150, 150);
         exitRect = new Rect(50, 520, 70, 70);
         difficultyRect = new Rect(720, 520, 64, 64);
     }
