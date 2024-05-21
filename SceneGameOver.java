@@ -22,7 +22,7 @@ public class SceneGameOver extends Scene {
             e.printStackTrace();
         }
 
-        this.gameOverRect = new Rect(0, 0, 360, 240);
+        this.gameOverRect = new Rect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
     }
 
     @Override

@@ -23,7 +23,6 @@ public class Food {
         this.xPadding = (int) ((Constants.TILE_WIDTH - this.width) / 2.0);
     }
 
-
     // appears the food on the rect
     public void spawn() {
         do {
@@ -53,7 +52,6 @@ public class Food {
                 this.rect.x = -10000;
                 this.rect.y = -10000;
                 spawned = false;
-                System.out.println("Nyam");
                 break;
             }
         }
