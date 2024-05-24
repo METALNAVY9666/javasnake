@@ -14,7 +14,7 @@ To start the game, just execute the "Main" class. On linux, you can do `java Mai
 
 # Gameplay
 
-Eating food will make your snake smaller (idk how tf they came up with that)
+Eating food will make your snake smaller (if only it was the same irl)
 
 ## Gamemodes
 
