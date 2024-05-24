@@ -10,8 +10,8 @@ public class SceneGameAI extends SceneGameCoop {
     public SceneGameAI(KL keyListener) throws IOException {
         super(keyListener);
         // Initialize the snake with starting parameters
-        snakeRed = new Snake(2, 48, 48 + 24, 24, 24, super.foreground);
-        snakeBlue = new SnakeIA(2, 48, 216 + 24, 24, 24, super.foreground);
+        snakeRed = new Snake(0, 2, 48, 48 + 24, 24, 24, super.foreground);
+        snakeBlue = new SnakeIA(1, 2, 48, 216 + 24, 24, 24, super.foreground);
 
         this.control = new Control(keyListener);
 

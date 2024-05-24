@@ -2,15 +2,16 @@ import java.io.IOException;
 
 public class SnakeIA extends Snake {
 
-    public SnakeIA(int size, double startX, double startY, double bodyWidth, double bodyHeight, Rect background)
+    public SnakeIA(int id, int size, double startX, double startY, double bodyWidth, double bodyHeight, Rect background)
             throws IOException {
-        super(size, startX, startY, bodyWidth, bodyHeight, background);
+        super(id, size, startX, startY, bodyWidth, bodyHeight, background);
     }
 
     private Rect findNearestFood() {
         Rect nearestFood = null;
         double minDistance = Double.MAX_VALUE;
 
+        // Loop through all the food items to find the nearest one
         for (Food food : foods) {
             double distance = Math
                     .sqrt(Math.pow(body[head].x - food.rect.x, 2) + Math.pow(body[head].y - food.rect.y, 2));
@@ -27,25 +28,23 @@ public class SnakeIA extends Snake {
         double headX = body[head].x;
         double headY = body[head].y;
 
-        // Bro in english please !
-
-        // Рассчитываем разницу между координатами головы и еды
+        // Calculate the difference between the coordinates of the head and the food
         double diffX = food.x - headX;
         double diffY = food.y - headY;
 
-        // Если еда находится выше головы змеи, двигаемся вверх
+        // If the food is above the snake's head, move up
         if (diffY < 0 && direction != Direction.DOWN && headY - bodyHeight >= background.y) {
             super.changeDirection(Direction.UP);
         }
-        // Если еда находится ниже головы змеи, двигаемся вниз
+        // If the food is below the snake's head, move down
         else if (diffY > 0 && direction != Direction.UP && headY + bodyHeight <= background.y + background.height) {
             super.changeDirection(Direction.DOWN);
         }
-        // Если еда находится левее головы змеи, двигаемся влево
+        // If the food is to the left of the snake's head, move left
         else if (diffX < 0 && direction != Direction.RIGHT && headX - bodyWidth >= background.x) {
             super.changeDirection(Direction.LEFT);
         }
-        // Если еда находится правее головы змеи, двигаемся вправо
+        // If the food is to the right of the snake's head, move right
         else if (diffX > 0 && direction != Direction.LEFT && headX + bodyWidth <= background.x + background.width) {
             super.changeDirection(Direction.RIGHT);
         }

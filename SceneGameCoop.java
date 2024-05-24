@@ -12,8 +12,8 @@ public class SceneGameCoop extends Scene {
     public SceneGameCoop(KL keyListener) throws IOException {
         super(keyListener);
         // Initialize the snake with starting parameters
-        snakeRed = new Snake(2, 48, 48 + 24, 24, 24, super.foreground);
-        snakeBlue = new Snake(2, 48, 216 + 24, 24, 24, super.foreground);
+        snakeRed = new Snake(0, 2, 48, 48 + 24, 24, 24, super.foreground);
+        snakeBlue = new Snake(1, 2, 48, 216 + 24, 24, 24, super.foreground);
 
         this.control = new Control(keyListener);
 

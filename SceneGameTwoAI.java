@@ -7,8 +7,8 @@ public class SceneGameTwoAI extends Scene {
     public Food[] foods;
 
     public SceneGameTwoAI() throws IOException {
-        snakeRed = new SnakeIA(2, 48, 48 + 24, 24, 24, super.foreground);
-        snakeBlue = new SnakeIA(2, 48, 216 + 24, 24, 24, super.foreground);
+        snakeRed = new SnakeIA(0, 2, 48, 48 + 24, 24, 24, super.foreground);
+        snakeBlue = new SnakeIA(1, 2, 48, 216 + 24, 24, 24, super.foreground);
 
         this.foods = super.generateFood(snakeRed, snakeBlue);
 

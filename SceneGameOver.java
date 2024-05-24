@@ -15,9 +15,9 @@ public class SceneGameOver extends Scene {
     // time elapsed since the end of the game in ms
     public double deltaSum = 0;
 
-    public SceneGameOver() {
+    public SceneGameOver(String looser) {
         try {
-            this.gameOverImage = ImageIO.read(new File(getTexture("gameover")));
+            this.gameOverImage = ImageIO.read(new File(getTexture(looser + "_gameover")));
         } catch (Exception e) {
             e.printStackTrace();
         }

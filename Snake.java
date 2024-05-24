@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Snake {
+    public int id;
     public Rect[] body = new Rect[1000];
     // Width and height of each body segment
     public double bodyWidth, bodyHeight;
@@ -27,8 +28,9 @@ public class Snake {
 
     public Food[] foods;
 
-    public Snake(int size, double startX, double startY, double bodyWidth, double bodyHeight, Rect background)
+    public Snake(int id, int size, double startX, double startY, double bodyWidth, double bodyHeight, Rect background)
             throws IOException {
+        this.id = id;
         this.size = size;
         this.bodyWidth = bodyWidth;
         this.bodyHeight = bodyHeight;
@@ -179,7 +181,7 @@ public class Snake {
         }
 
         if (intersectingWithSelf()) {
-            Window.getWindow().changeState(4);
+            Window.getWindow().changeState(4 + this.id);
         }
 
         // Reset the timer and calculate the new position for the head of the snake
